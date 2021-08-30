@@ -19,6 +19,8 @@
 .env.test.local
 .env.production.local
 .vercel
+/.screenshots
+
 
 npm-debug.log*
 yarn-debug.log*
