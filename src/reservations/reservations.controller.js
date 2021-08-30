@@ -87,6 +87,30 @@ function hasValidDate(req, res, next) {
   next();
 }
 
+function hasValidTime(req, res, next) {
+  const { reservation_time } = req.body.data;
+  if (!reservation_time) {
+    next({
+      status: 400,
+      message: `Please select a time.`,
+    });
+  }
+  if (reservation_time < '10:29:59') {
+    next({
+      status: 400,
+      message: 'The restaurant does not open until 10:30 a.m.',
+    });
+  } else {
+    if (reservation_time >= '21:30:00') {
+      next({
+        status: 400,
+        message: `The restaurant closes at 22:30 (10:30 pm). Please schedule your reservation at least one hour before close.`,
+      });
+    }
+  }
+  next();
+}
+
 async function list(req, res) {
   const { date } = req.query;
   res.json({
@@ -100,6 +124,6 @@ async function create(req, res, next) {
 }
 
 module.exports = {
-  create: [hasProperties, hasValidProperties, hasValidDate, asyncErrorBoundary(create)],
+  create: [hasProperties, hasValidProperties, hasValidDate, hasValidTime, asyncErrorBoundary(create)],
   list: asyncErrorBoundary(list),
 };
