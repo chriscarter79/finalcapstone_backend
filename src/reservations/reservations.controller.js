@@ -59,6 +59,34 @@ function hasValidProperties(req, res, next) {
   next();
 }
 
+function hasValidDate(req, res, next) {
+  const { reservation_date, reservation_time } = req.body.data;
+  const invalidDate = 2;
+  const submitDate = new Date(reservation_date + ' ' + reservation_time);
+  const dayAsNum = submitDate.getDay();
+  const today = new Date();
+
+  if (!reservation_date) {
+    next({
+      status: 400,
+      message: `Please select a date.`,
+    });
+  }
+  if (submitDate < today) {
+    next({
+      status: 400,
+      message: `The date and time has to be in the future. Today is ${today}.`,
+    });
+  }
+  if (dayAsNum === invalidDate) {
+    next({
+      status: 400,
+      message: `The restaurant is closed on Tuesdays. Please select a different day.`,
+    });
+  }
+  next();
+}
+
 async function list(req, res) {
   const { date } = req.query;
   res.json({
@@ -72,6 +100,6 @@ async function create(req, res, next) {
 }
 
 module.exports = {
-  create: [hasProperties, hasValidProperties, asyncErrorBoundary(create)],
+  create: [hasProperties, hasValidProperties, hasValidDate, asyncErrorBoundary(create)],
   list: asyncErrorBoundary(list),
 };
