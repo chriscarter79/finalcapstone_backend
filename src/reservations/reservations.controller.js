@@ -1,42 +1,7 @@
 const service = require('./reservations.service')
 const wrapper = require('../errors/asyncErrorBoundary')
 
-// const list = async (req, res, next) => {
-//   const { date, mobile_number } = req.query
-//   const data = await service.list(req.query)
-//   if (date) {
-//     const data = await service.list(date)
-//     res.json({
-//       data: data,
-//     })
-//     return
-//   }
-//   if (mobile_number) {
-//     const data = await service.listByMobileNumber(mobile_number)
-//     res.json({
-//       data: data,
-//     })
-//     return
-//   }
-//   return res.json({ data })
-// }
-
-// const show = async (req, res, next) => {
-//   const { date } = req.query;
-//   res.json({
-//     data: await service.list(date),
-//   });
-// }
-  
-
-
-
-// const show = async (req, res, next) => {
-//   const data = await service.show()
-//   return res.json({ data })
-// }
-
-async function list(req, res) {
+const list = async (req, res) => {
   const { date, mobile_number } = req.query;
   if (date) {
     res.json({ data: await service.listByDate(date) });
@@ -163,7 +128,6 @@ const update = async (req, res, next) => {
 
 module.exports = {
   list: [wrapper(list)],
-  // show: [wrapper(show)],
   read: [wrapper(hasValidId), wrapper(read)],
   create: [
     wrapper(isValid),
