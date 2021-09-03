@@ -6,7 +6,7 @@
 
 
 ## Project Summary
-A Restaurant Reservation System that is used to keep track of guest reservations and table assignments. The user can create new reservations and search for reservations by phone number. They also keep track of where reservations are seated and tables are occupied.
+A Restaurant Reservation System that is used to keep track of guest reservations and table assignments. The user can create new reservations and search for reservations by phone number. They can also keep track of where reservations are seated and tables are occupied.
 
 ### The Dashboard
 ![Image of Dashboard](./images/DashboardNoRes.png)
